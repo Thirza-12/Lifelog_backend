@@ -3,9 +3,10 @@ import userRoutes from "./routes/userRoutes.js";
 import entryRoutes from "./routes/entryRoutes.js";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
-const app=express();
 import cors from "cors";
-
+import dotenv from "dotenv";
+dotenv.config();
+const app=express();
 // Routes
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.json({ limit: "10mb" })); 
