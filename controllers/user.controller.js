@@ -90,14 +90,16 @@ export const login = async (req, res) => {
 
 // Logout
 export const logout = (req, res) => {
-    try {
-      res.cookie("jwt", "", { maxAge: 0 });
-      res.status(200).json({ message: "Logged out successfully" });
-    } catch (error) {
-      console.log("Error in logout controller", error.message);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    req.user = null; // Clear user reference for immediate effect
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
+
 
 // Get Profile
 export const getProfile = async (req, res) => {
@@ -173,5 +175,9 @@ export const updateProfile = async (req, res) => {
 };
 
 export const checkAuth = (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ valid: false }); // Force logout if no user is set
+  }
   res.status(200).json({ valid: true, user: req.user });
 };
+
