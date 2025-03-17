@@ -11,7 +11,7 @@ const app=express();
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.json({ limit: "10mb" })); 
 
-app.use(cors({ origin: ["https://magenta-custard-b3d474.netlify.app","https://lifelog-1b8u.onrender.com"], credentials: true }));
+app.use(cors({ origin: ["https://lifelog-diary.netlify.app","https://lifelog-1b8u.onrender.com"], credentials: true }));
 
 app.use(cookieParser());
 app.use("/api/auth", userRoutes);
