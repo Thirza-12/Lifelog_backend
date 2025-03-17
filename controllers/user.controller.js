@@ -88,17 +88,26 @@ export const login = async (req, res) => {
     }
 };
 
-// Logout
 export const logout = (req, res) => {
   try {
-    res.clearCookie("jwt");
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: true,        // Required for HTTPS
+      sameSite: "Strict",  // CSRF protection
+      path: "/",           // Clear cookie across all routes
+      expires: new Date(0),
+      domain: "lifelog-1b8u.onrender.com", // Ensures cookie deletion in deployment
+    });
+
     req.user = null; // Clear user reference for immediate effect
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    console.log("Error in logout controller", error.message);
+    console.error("Error in logout controller:", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 
 // Get Profile
